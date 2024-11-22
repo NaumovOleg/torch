@@ -1,16 +1,22 @@
 """test"""
 
-import torch
-
-# r = [1 * 1 + 2 * 2 + 3 * 3, 4 * 1 + 5 * 2 + 6 * 3, 7 * 1 + 8 * 2 + 9 * 3]
-m = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-v = torch.tensor([1, 2, 3])
-mv = torch.matmul(m, v)
-
-# r = [[1 * 5 + 2 * 7, 1 * 6 + 2 * 8], [3 * 5 + 4 * 7, 3 * 6 + 4 * 8]]
-A = torch.tensor([[1, 2], [3, 4]])  # Shape (2, 2)
-B = torch.tensor([[5, 6], [7, 8]])  # Shape (2, 2)
+import torch as t
 
 
-result = torch.matmul(A, B)
-print(result)
+m1 = t.tensor([[1, 2], [3, 4]])
+m2 = t.tensor([[5, 6], [7, 8]])
+
+
+m3 = t.tensor([[1, 0], [0, 1]])
+m4 = t.tensor([[1], [2]])
+res = t.matmul(m1, m3)
+res = t.matmul(m1, m4)
+res = t.matmul(m1, m2)
+m5 = t.tensor([[1, 2], [0, 1]], dtype=t.float32)
+invers_matrix = t.linalg.inv(m5)
+
+# tensor([[1.0, 0.0], [0.0, 1.0]])
+m6 = t.matmul(invers_matrix, m5)
+
+
+print(invers_matrix, m6)
