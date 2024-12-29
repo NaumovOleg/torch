@@ -25,15 +25,22 @@ m2f = t.tensor(
     ],
     dtype=t.float32,
 )
+m3f = t.tensor(
+    [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]],
+    dtype=t.float32,
+)
 
 # 1*4 - 2*3
 det = t.linalg.det(m1f)
 
 # r = (1 * 5 * 9 + 2 * 7 * 6 + 3 * 4 * 8) - (3 * 5 * 7 + 2 * 4 * 9 + 1 * 6 * 8)
-det2 = t.linalg.det(m2f)
+det2 = t.linalg.det(m3f)
 
 # tensor([[1.0, 0.0], [0.0, 1.0]])
 m6 = t.matmul(inverse_matrix, m5)
 
+tensord = t.tensor([[1, 1, 1], [1, 2, 3], [1, 1, 1]], dtype=t.float32)
+deta = t.linalg.det(tensord)
 
-print(det2)
+
+print(deta, end="\n")
