@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from datasets.constants import x_train, y_train
+from datasets import x_train, y_train
 
 n_train = len(x_train)
 w = [0.0, -1.0]
@@ -15,6 +15,8 @@ L = 0.1
 e = 0.1
 
 last_error_index = -1
+
+print("-----,", [1 for i in range(n_train) if y_train[i] * a(x_train[i]) < 0])
 
 for n in range(N):
     for i in range(n_train):
