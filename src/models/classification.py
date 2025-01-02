@@ -10,9 +10,9 @@ def a(x):
     return np.sign(x[0] * w[0] + x[1] * w[1])
 
 
-N = 50
-L = 0.1
-e = 0.1
+N = 50  # number of iterations
+L = 0.1  # learning rate
+e = 0.1  # learning rate
 
 last_error_index = -1
 
