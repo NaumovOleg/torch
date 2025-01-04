@@ -87,16 +87,9 @@ def predict(X, weights, threshold=0.5):
     return 1 if predictions > 0 else -1
 
 
-print("W1 ", np.array([predict(x, w) for x in x_train]))
-print(
-    "W3 ",
-    np.array([predict(x, [0.05966587, -0.03420555, 0.04689331]) for x in x_train]),
-)
-print("W: ", y_train)
-
-
 line_x = list(range(max(x_train[:, 0])))
 line_y = [-x * w[0] / w[1] - w[2] / w[2] for x in line_x]
+line_z = [-x * w[0] / w[1] - w[2] / w[2] for x in line_x]
 x_0 = x_train[y_train == 1]
 x_1 = x_train[y_train == -1]
 plt.scatter(x_0[:, 0], x_0[:, 1], color="red")
