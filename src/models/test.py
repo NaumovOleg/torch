@@ -20,11 +20,11 @@ def df(weights, x, y):
 
 n_train = len(x_train)
 w = [0.0, 0.0, 0.0]  # initial value of  weights
-nt = 0.0005  # шаг сходимости SGD
+nt = 0.00005  # шаг сходимости SGD
 
-N = 5000
+N = 50000
 # lm = 2 / (N + 1)  # 0.01
-lm = 0.0001  # скорость "забывания" для Q
+lm = 0.01  # скорость "забывания" для Q
 
 Q = np.mean([loss(w, x, y) for x, y in zip(x_train, y_train)])  # показатель качества
 QSet_for_SAG = [df(w, x, y) for x, y in zip(x_train, y_train)]
@@ -44,14 +44,14 @@ def calculate_sag(index, q_mean_sag, weights, x, y):
 #     k = np.random.randint(0, n_train - 1)  # random index
 #     # learning_coefficient = np.exp(-(i / N))
 #     indexes = np.random.randint(low=0, high=n_train, size=7, dtype=int)
-#     ek = np.mean([loss(w, x_train[o], y_train[o]) for o in indexes], axis=0)
-#     # ek = loss(w, x_train[k], y_train[k])
+#     # ek = np.mean([loss(w, x_train[o], y_train[o]) for o in indexes], axis=0)
+#     ek = loss(w, x_train[k], y_train[k])
 
 #     # Q_MEAN_SAG = calculate_sag(k, Q_MEAN_SAG, w, x_train[k], y_train[k])
 #     # print("====", Q_MEAN_SAG, "----", df(w, x_train[k], y_train[k]), end="\n")
 
 #     # w = w - nt * Q_MEAN_SAG  # Псевдо градиентный алгоритм SGD
-#     w = w - nt * (df(w, x_train[k], y_train[k]))  # Псевдо градиентный алгоритм SGD
+#     w = w - nt * df(w, x_train[k], y_train[k])  # Псевдо градиентный алгоритм SGD
 #     Q = lm * ek + (1 - lm) * Q  # скользящее экспоненциальное сглаживание
 #     Q_plot.append(Q)
 #     if Q <= 0.003:
@@ -72,18 +72,20 @@ w2 = A @ x_train.T @ y_train
 # метод импульсов для задачи бинарной классификации
 beta = 0.1
 velocity = np.zeros_like(w)
-for i in range(N):
-    k = np.random.randint(0, n_train - 1)  # random index
-    indexes = np.random.randint(low=0, high=n_train, size=5, dtype=int)
 
-    velocity = beta * velocity - nt * (df(w, x_train[k], y_train[k]) 
-    w += velocity
+# for i in range(N):
+#     nt = 1 / (min(i + 1, mn))
+#     k = np.random.randint(0, n_train - 1)  # random index
+#     indexes = np.random.randint(low=0, high=n_train, size=5, dtype=int)
 
-    ek = np.mean([loss(w, x_train[o], y_train[o]) for o in indexes], axis=0)
-    Q = lm * ek + (1 - lm) * Q
-    Q_plot.append(Q)
-    if Q <= 0.025:
-        break
+#     velocity = beta * velocity - nt * df(w, x_train[k], y_train[k])
+#     w += velocity
+
+#     ek = np.mean([loss(w, x_train[o], y_train[o]) for o in indexes], axis=0)
+#     Q = lm * ek + (1 - lm) * Q
+#     Q_plot.append(Q)
+#     if Q <= 0.022:
+#         break
 
 
 def sigmoid(z):
@@ -95,6 +97,22 @@ def predict(X, weights, threshold=0.5):
     probabilities = sigmoid(linear_combination)
     predictions = (probabilities >= threshold).astype(int)
     return 1 if predictions > 0 else -1
+
+
+for i in range(N):
+
+    nt2 = 1 / min((i + 1), 5000)
+
+    k = np.random.randint(0, n_train - 1)  # random index
+
+    w = w - nt2 * np.sign(df(w, x_train[k], y_train[k]))
+
+    indexes = np.random.randint(low=0, high=n_train, size=5, dtype=int)
+    ek = np.mean([loss(w, x_train[o], y_train[o]) for o in indexes], axis=0)
+    Q = lm * ek + (1 - lm) * Q
+    Q_plot.append(Q)
+    if Q <= 0.022:
+        break
 
 
 print("Weights ", w, Q)
