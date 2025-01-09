@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from datasets import x_train, y_train, x_test
+from datasets import x_train, y_train
 
 x_train = np.hstack((x_train, np.ones((x_train.shape[0], 1), dtype=x_train.dtype)))
-x_test = np.hstack((x_test, np.ones((x_test.shape[0], 1), dtype=x_test.dtype)))
 
 
 # sigmoid loss function
@@ -23,8 +22,12 @@ def sigmoid(z):
 
 
 def predict(w, X, threshold=0.5):
-    probabilities = sigmoid(np.dot(X, w))
-    return 1 if (probabilities >= threshold) else -1
+    z = np.dot(X, w)
+    # Apply the sigmoid function to get probabilities
+    probabilities = sigmoid(z)
+    # Convert probabilities to binary predictions
+    predictions = (probabilities >= threshold).astype(int)
+    return predictions
 
 
 n_train = len(x_train)
@@ -75,10 +78,8 @@ line_y = [-x * w[0] / w[1] - w[2] / w[2] for x in line_x]
 line_z = [-x * w[0] / w[1] - w[2] / w[2] for x in line_x]
 x_0 = x_train[y_train == 1]
 x_1 = x_train[y_train == -1]
-x_2 = x_test
 plt.scatter(x_0[:, 0], x_0[:, 1], color="red")
 plt.scatter(x_1[:, 0], x_1[:, 1], color="green")
-plt.scatter(x_2[:, 0], x_2[:, 1], color="blue")
 plt.plot(line_x, line_y, color="blue")
 plt.grid(True)
 plt.show()
@@ -86,8 +87,3 @@ plt.show()
 plt.plot(Q_plot, color="b", label="Line Chart")
 plt.grid(True)
 plt.show()
-
-
-print(np.array([predict(w, i) for i in x_train]))
-print(np.array([predict(w, i) for i in x_test]))
-print(y_train)
