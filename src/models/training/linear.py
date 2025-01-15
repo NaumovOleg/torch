@@ -2,6 +2,8 @@ from sklearn.datasets import make_regression
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import numpy as np
+import joblib
+import os
 
 
 model = LinearRegression()
@@ -27,6 +29,12 @@ print(RMSE, np.max(y_predicted))
 
 print("Predicted", model.predict(np.array(X[:1]).reshape(-1, 1)), end="\n\n")
 print("Given", X[:1], model.predict(X[:1]), y[:1])
+
+
+joblib.dump(
+    model,
+    os.path.join(os.getenv("MODEL_OUTPUT_PATH", "./"), "linear_regression_model.pkl"),
+)
 
 
 model_y = model.coef_ * x + model.intercept_
