@@ -16,7 +16,7 @@ x_train = np.array(
         [22, 53],
     ]
 )
-
+y_train = np.array([-1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1])
 x_test = np.array(
     [
         [12, 52],
@@ -33,4 +33,3 @@ x_test = np.array(
         [25, 56],
     ]
 )
-y_train = np.array([-1, 1, 1, -1, -1, 1, 1, 1, -1, 1, -1, -1])

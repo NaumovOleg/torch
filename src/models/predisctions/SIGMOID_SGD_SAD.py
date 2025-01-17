@@ -51,7 +51,6 @@ def calculate_sag(index, q_mean_sag, weights, x, y):
 #     # Q_MEAN_SAG = calculate_sag(k, Q_MEAN_SAG, w, x_train[k], y_train[k])
 #     # print("====", Q_MEAN_SAG, "----", df(w, x_train[k], y_train[k]), end="\n")
 
-#     # w = w - nt * Q_MEAN_SAG  # Псевдо градиентный алгоритм SGD
 #     w = w - nt * df(w, x_train[k], y_train[k])  # Псевдо градиентный алгоритм SGD
 #     Q = lm * ek + (1 - lm) * Q  # скользящее экспоненциальное сглаживание
 #     Q_plot.append(Q)
