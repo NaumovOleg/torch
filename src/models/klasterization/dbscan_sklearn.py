@@ -7,9 +7,9 @@ X, _ = make_moons(n_samples=300, noise=0.05, random_state=42)
 X2, *_ = make_blobs(n_samples=300, centers=4, n_features=10, random_state=42)
 
 
-model = DBSCAN(eps=1.5, min_samples=5)
-labels = model.fit_predict(X2)
+model = DBSCAN(eps=0.1, min_samples=2)
+labels = model.fit_predict(X)
 
-plt.scatter(X2[:, 0], X2[:, 1], c=labels, cmap="viridis", edgecolors="k")
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="viridis", edgecolors="k")
 plt.title("DBSCAN Clustering")
 plt.show()
