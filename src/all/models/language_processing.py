@@ -128,6 +128,7 @@ for line in text.split("\n"):
         line = line.lower()
         corpus.append(line)
 
+
 tfIdfVectorizer = TfidfVectorizer(use_idf=True, stop_words="english")
 vectorized = tfIdfVectorizer.fit_transform(corpus)
 

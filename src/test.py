@@ -38,3 +38,6 @@ plt.scatter(X, y, color="blue", label="Данные")
 plt.plot(X, y_pred, color="red", label="Линейная регрессия")
 plt.legend()
 plt.show()
+
+
+
