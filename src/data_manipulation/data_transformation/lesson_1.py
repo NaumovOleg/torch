@@ -7,6 +7,7 @@ from sklearn.preprocessing import (
     MinMaxScaler,
     MaxAbsScaler,
     RobustScaler,
+    Normalizer,
 )
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.linear_model import LinearRegression
