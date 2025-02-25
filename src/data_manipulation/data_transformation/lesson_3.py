@@ -1,11 +1,9 @@
-import numpy as np
 import pandas as pd
 from sklearn.pipeline import make_pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OrdinalEncoder, FunctionTransformer
 from datasets import scoring
-
 
 imputer = SimpleImputer(strategy="mean")
 scaler = StandardScaler()
