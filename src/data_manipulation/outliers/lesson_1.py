@@ -13,8 +13,10 @@ z_score = pd.DataFrame(stats.zscore(boston), columns=boston.columns)
 
 more_3_sko = boston[(np.abs(z_score) > 3).any(axis=1)]
 
-cleared = boston[~((np.abs(z_score) > 3).any(axis=1))]
+print(boston.info())
 
+cleared = boston[~((np.abs(z_score) > 3).any(axis=1))]
+print(cleared.info())
 
 # IQR
 q1 = boston.RM.quantile(0.25)
@@ -38,3 +40,18 @@ clf.fit(X_boston)
 boston["scores"] = clf.decision_function(X_boston)
 # и результатом (выброс (-1) или нет (1))
 boston["anomaly"] = clf.predict(X_boston)
+
+
+X_boston = boston.drop(columns="MEDV")
+y_boston = boston.MEDV
+
+clf = IsolationForest(max_samples=100, random_state=0)
+clf.fit(X_boston)
+
+# создадим столбец с anomaly_score
+boston["scores"] = clf.decision_function(X_boston)
+# и результатом (выброс (-1) или нет (1))
+boston["anomaly"] = clf.predict(X_boston)
+
+# посмотрим на количество выбросов
+boston[boston.anomaly == -1].shape[0]
