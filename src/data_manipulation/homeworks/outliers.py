@@ -3,6 +3,16 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
+import missingno as msno
+
+
+# IQR
+# Q1 = np.percentile(data, 25)
+# Q3 = np.percentile(data, 75)
+# IQR = Q3 - Q1
+
+# lower_bound = Q1 - 1.5 * IQR
+# upper_bound = Q3 + 1.5 * IQR
 
 
 def draw_boxplot(x: pd.Series) -> None:
@@ -26,13 +36,12 @@ def detect_z_score(df: pd.DataFrame, threshold=3):
     return (clean, outlier_columns)
 
 
-# time_spend_company
-
-
 def clean_outliers(df: pd.DataFrame, show_box=True) -> pd.DataFrame:
     clean, columns = detect_z_score(df)
     if show_box:
+        msno.matrix(df)
         for column in columns:
             draw_boxplot(df[column])
+        plt.show()
 
     return clean
